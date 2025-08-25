@@ -1,12 +1,47 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. File Layout
 
-Currently, two official plugins are available:
+```markdown
+src/
+  main.jsx
+  App.jsx
+  App.css
+  components/
+    TodoInput.jsx
+    TodoItem.jsx
+    TodoList.jsx
+    Stats.jsx
+  hooks/
+    useLocalStorage.js
+    useTodos.js
+  styles.css
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Add import "./styles.css" at the top of App.jsx.
 
-## Expanding the ESLint configuration
+## 2. Core ideas you’ll cover while coding
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Components & Props: TodoItem, TodoList, TodoInput, Stats
+
+- State: useState in App and TodoInput
+
+- Lifecycle (via hooks):
+
+- mount/update/cleanup with useEffect
+
+- syncing to localStorage
+
+- an example interval with cleanup
+
+- Refs: useRef to focus the input
+
+- Derived/computed data: useMemo for visible/derived stats
+
+- Stable handlers: useCallback to reduce re-renders
+
+- Performance: React.memo on TodoItem
+
+- Reducer: useReducer inside useTodos custom hook
+
+- Custom Hook: useLocalStorage (generic), useTodos (domain)
