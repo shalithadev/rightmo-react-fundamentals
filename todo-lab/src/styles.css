@@ -5,14 +5,17 @@
   --card: #15161c;
   --accent: #4f8cff;
 }
+
 * {
   box-sizing: border-box;
 }
+
 html,
 body,
 #root {
   height: 100%;
 }
+
 body {
   margin: 0;
   background: var(--bg);
@@ -20,26 +23,35 @@ body {
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter,
     "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
+
 .container {
   max-width: 720px;
   margin: 2rem auto;
   padding: 1rem;
 }
+
 .card {
   background: var(--card);
   border: 1px solid #23242b;
   border-radius: 12px;
   padding: 16px;
 }
+
+.card.header {
+  background-color: #0a214e;
+}
+
 .row {
   display: flex;
   gap: 8px;
 }
+
 input,
 button,
 select {
   font: inherit;
 }
+
 input {
   background: #0f1016;
   color: var(--fg);
@@ -48,6 +60,11 @@ input {
   padding: 10px 12px;
   width: 100%;
 }
+
+input[type="checkbox" i]  {
+  width: fit-content;
+}
+
 button {
   background: var(--accent);
   color: white;
@@ -56,24 +73,29 @@ button {
   padding: 10px 14px;
   cursor: pointer;
 }
+
 button.ghost {
   background: transparent;
   border: 1px solid #2c2e37;
   color: var(--muted);
 }
+
 small {
   color: var(--muted);
 }
+
 ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 hr {
   border: none;
   border-top: 1px solid #23242b;
   margin: 16px 0;
 }
+
 .todo {
   display: flex;
   align-items: center;
@@ -81,13 +103,16 @@ hr {
   padding: 10px;
   border-radius: 8px;
 }
+
 .todo + .todo {
   margin-top: 8px;
 }
+
 .todo.done span {
   text-decoration: line-through;
   color: var(--muted);
 }
+
 .badge {
   font-size: 12px;
   padding: 2px 8px;
