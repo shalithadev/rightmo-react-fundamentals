@@ -4,6 +4,7 @@ import { nanoid } from "nanoid"; // optional; or make simple ids
 
 function reducer(state, action) {
   switch (action.type) {
+    // used to initialize state from localStorage
     case "hydrate":
       return action.payload;
     case "add":
@@ -20,7 +21,12 @@ function reducer(state, action) {
 }
 
 export function useTodos() {
+  // use localStorage to persist todos between sessions
+  // (teach: custom hooks, lazy initial state)
   const [persisted, setPersisted] = useLocalStorage("todos", []);
+  // useReducer for state management
+  // (teach: reducers, actions, immutability)
+  // useReducer is a React Hook that lets you add a reducer to your component.
   const [todos, dispatch] = useReducer(reducer, persisted || []);
 
   // keep reducer state and localStorage in sync
