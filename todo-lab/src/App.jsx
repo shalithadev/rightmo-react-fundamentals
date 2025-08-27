@@ -3,7 +3,7 @@ import "./styles.css";
 import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
 import Stats from "./components/Stats";
-import { useTodos } from "./hooks/useTodos";
+import { useTodos } from "./hooks/useTodos2";
 import Header from "./components/Header";
 
 export default function App() {
@@ -22,7 +22,7 @@ export default function App() {
     <div className="container">
       {/* Components are the building blocks of a React application. Each component represents a part of the user interface. */}
       {/* TIP: Always use functional components with hooks for simplicity and performance. */}
-      <Header title={title} subtitle={"Components · Props · State · Effects · Refs · Memo · Callback · Reducer"} />
+      <Header title={title} subtitle="Components · Props · State · Effects · Refs · Memo · Callback · Reducer" />
 
       <Stats total={stats.total} done={stats.done} pending={stats.pending} onClearDone={clearDone} />
 

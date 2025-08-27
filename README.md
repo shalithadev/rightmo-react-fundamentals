@@ -32,7 +32,7 @@
 
 - Rendering dynamic data.
 
-- Hands-on: “Hello React” app displaying your name & favorite tech.
+- Hands-on: “React ToDo Lab” app displaying name & todos.
 
 - Homework: Create 3 components (Header, Content, Footer).
 
