@@ -5,7 +5,8 @@ size: 16:9
 theme: gaia
 _class: lead
 backgroundColor: #fff
-backgroundImage: url('https://marp.app/assets/hero-background.svg')
+backgroundImage: url('./bg-dark-blue.svg')
+color: #ccc
 ---
 
 # Day 01 — React Fundamentals
@@ -70,6 +71,8 @@ el.addEventListener("click", () => {
 document.body.appendChild(el);
 ```
 
+---
+
 **Declarative (React)**
 
 ```jsx
@@ -103,6 +106,8 @@ const el = <h1 className="title">Hello, React!</h1>;
 ```js
 const el = React.createElement("h1", { className: "title" }, "Hello, React!");
 ```
+
+---
 
 **React Element (plain object)**
 
@@ -210,6 +215,8 @@ setText("hello");
 - `useState` — local state
 - `useEffect` — side effects (fetch, subscriptions, timers)
 - Cleanup in effects runs on unmount or before re-running effect
+
+---
 
 ```jsx
 function Clock() {
