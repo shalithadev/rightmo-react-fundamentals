@@ -6,21 +6,21 @@
         </linearGradient>
         <linearGradient id="b" x1="855.49" y1="465.13" x2="1966.05" y2="232.05" gradientUnits="userSpaceOnUse">
             <stop offset=".53" stop-color="#23272f"/>
-            <stop offset=".83" stop-color="#23272f"/>
+            <stop offset=".83" stop-color="#2d323c"/>
         </linearGradient>
         <linearGradient id="c" x1="118.65" y1="417.06" x2="593.1" y2="969.25" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#23272f"/>
-            <stop offset=".43" stop-color="#2d323c"/>
+            <stop offset="0" stop-color="#181a20"/>
+            <stop offset=".43" stop-color="#23272f"/>
         </linearGradient>
     </defs>
     <path fill="url(#a)" d="m1571.5 0-.1.1L0 483.9 510.8 0h1060.7z"/>
     <path fill="#23272f" d="M1571.4.1 856.6 779.7 0 483.9 1571.4.1z"/>
-    <path fill="#23272f" d="M2000 0v53.7L1571.7 0H2000z"/>
+    <path fill="#181a20" d="M2000 0v53.7L1571.7 0H2000z"/>
     <path fill="#23272f" d="M2000 53.7v471.1L1571.7 0 2000 53.7z"/>
     <path fill="url(#b)" d="M2000 524.8 856.6 779.7 1571.4.1l.3-.1L2000 524.8z"/>
     <path fill="#23272f" d="M2000 524.8v543.4L858 780.1l-1.4-.4L2000 524.8z"/>
     <path fill="url(#c)" d="m552.8 1200 303.8-420.3L0 483.9 364.9 1200h187.9z"/>
-    <path fill="#23272f" d="M0 .1v483.8L510.8 0 0 .1z"/>
-    <path fill="#23272f" d="M2000 1200v-131.8L858 780.1l-1.4-.4L552.8 1200H2000z"/>
-    <path fill="#2d323c" d="M364.9 1200 0 483.9V1200h364.9z"/>
+    <path fill="#181a20" d="M0 .1v483.8L510.8 0 0 .1z"/>
+    <path fill="#181a20" d="M2000 1200v-131.8L858 780.1l-1.4-.4L552.8 1200H2000z"/>
+    <path fill="#23272f" d="M364.9 1200 0 483.9V1200h364.9z"/>
 </svg>

@@ -5,7 +5,7 @@ size: 16:9
 theme: gaia
 _class: lead
 backgroundColor: #fff
-backgroundImage: url('./bg-dark-blue.svg')
+backgroundImage: url('./bg-dark.svg')
 color: #ccc
 ---
 
@@ -312,10 +312,79 @@ const el = React.createElement("h1", { className: "title" }, "Hello");
 
 ## Common Pitfalls (Day 01)
 
-- Mutating state directly instead of creating new values.
-- Using array **index** as `key`.
-- Side effects directly in the render body (use `useEffect`).
-- Assuming state updates are synchronous (they’re not).
+- **Directly mutating state** instead of creating new values  
+  _Bad:_
+  ```js
+  // ❌ Direct mutation
+  state.count++;
+  ```
+  _Good:_
+  ```js
+  // ✅ Use setter
+  setCount((c) => c + 1);
+  ```
+
+---
+
+- Using **array index as `key`** (can cause bugs when items are reordered/removed)  
+  _Bad:_
+  ```jsx
+  {
+    items.map((item, i) => <Row key={i} value={item} />);
+  }
+  ```
+  _Good:_
+  ```jsx
+  {
+    items.map((item) => <Row key={item.id} value={item} />);
+  }
+  ```
+
+---
+
+- Placing **side effects in the render body** (should use `useEffect` for effects)  
+  _Bad:_
+  ```jsx
+  // ❌ Side effect in render
+  fetch("/api/data").then(...);
+  ```
+  _Good:_
+  ```jsx
+  React.useEffect(() => {
+    fetch("/api/data").then(...);
+  }, []);
+  ```
+
+---
+
+- **Assuming state updates are synchronous** (they’re batched and may be async)  
+  _Bad:_
+  ```js
+  setCount(count + 1);
+  console.log(count); // Might not be updated yet!
+  ```
+  _Good:_
+  ```js
+  setCount((c) => c + 1);
+  // Use useEffect to react to changes if needed
+  ```
+
+---
+
+- Forgetting to **clean up effects** (e.g., timers, subscriptions) in `useEffect`  
+  _Bad:_
+  ```jsx
+  React.useEffect(() => {
+    const id = setInterval(...);
+  }, []);
+  ```
+  _Good:_
+  ```jsx
+  React.useEffect(() => {
+    const id = setInterval(...);
+    return () => clearInterval(id);
+  }, []);
+  ```
 
 ---
 
@@ -339,7 +408,35 @@ _(Answers: `React.createElement` calls; stage DOM updates in JS for efficient di
 
 ## Appendix — Batching & Transitions (Preview)
 
+---
+
 - React 18 **automatic batching** even across async boundaries.
+
+```jsx
+function Example() {
+  const [count, setCount] = React.useState(0);
+  const [text, setText] = React.useState("");
+
+  function handleClick() {
+    fetch("/api/data").then(() => {
+      setCount((c) => c + 1);
+      setText("Loaded!");
+      // Both state updates are batched—only one re-render
+    });
+  }
+
+  return (
+    <div>
+      <button onClick={handleClick}>Load</button>
+      <div>{count}</div>
+      <div>{text}</div>
+    </div>
+  );
+}
+```
+
+---
+
 - **Transitions** (e.g., `startTransition`) mark non-urgent updates to keep UI responsive.
 
 ```jsx
