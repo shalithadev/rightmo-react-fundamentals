@@ -7,9 +7,23 @@ _class: lead
 backgroundColor: #fff
 backgroundImage: url('./bg-dark.svg')
 color: #ccc
+style: |
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80%;
+    max-height: 600px;
+    height: auto;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+    border-radius: 8px;
+  }
+  li {
+    font-size: 30px;
+  }
 ---
 
-# Day 01 — React Fundamentals
+# Day 01 — React Fundamentals: What’s Under the Hood
 
 ### JSX → Elements • Virtual DOM • Reconciliation (Fiber) • Render & Commit • Lifecycle & Hooks • When to choose React • Ecosystem
 
@@ -21,13 +35,14 @@ color: #ccc
 
 1. What is React & why it exists
 2. JSX & React Elements
-3. Virtual DOM
-4. Reconciliation (Fiber) & Keys
-5. Render & Commit phases + batching
-6. Lifecycle & Hooks essentials
-7. When to choose React
-8. Ecosystem tour
-9. Mini–hands-on exercises & quiz
+3. Element Tree (blueprint)
+4. Virtual DOM & Flow
+5. Reconciliation (Fiber) & Keys
+6. Render & Commit phases (Two‑Phase Cycle)
+7. Lifecycle & Hooks essentials
+8. When to choose React
+9. Ecosystem tour
+10. Mini–hands-on exercises & quiz
 
 ---
 
@@ -43,40 +58,13 @@ By the end of Day 01, you will:
 
 ---
 
-## What is React?
+## Why React Exists
 
-- What is your opinion about React.js
-
----
-
-- A **UI library** for building component-based interfaces.
-  - React lets you break your UI into reusable, isolated pieces called **components**.
-  - Components manage their own state and logic, making complex UIs easier to build and maintain.
-
----
-
-- **Declarative**: Describe what the UI should look like; React figures out **how** to update it.
-  - You write code that describes the desired UI for a given state, not the steps to manipulate the DOM.
-  - React automatically updates the DOM when your data changes, keeping the UI in sync.
-
----
-
-- **Predictable** updates via state → re-render → diff → commit.
-  - When state or props change, React re-renders the affected components.
-  - It compares the new UI description to the previous one (**diffing**) and applies only the necessary changes to the DOM (**commit**).
-  - This process makes UI updates efficient and reduces bugs from manual DOM manipulation.
-
----
-
-**Problem React solves**
-
-- Direct DOM manipulation is **imperative**, requiring you to manually update, insert, or remove elements. This approach is error-prone, especially as UIs grow in complexity, because it’s easy to introduce bugs by forgetting to update all the necessary parts of the DOM or by causing inconsistent UI states.
-- Performance can suffer at scale, since each DOM operation is relatively expensive and can trigger costly browser reflows and repaints.
-
----
-
-- React solves these problems by introducing an abstraction layer: you describe **what** the UI should look like for a given state using **elements** (via JSX), and React manages **how** to update the DOM efficiently.
-- Under the hood, React uses a **Virtual DOM** (a lightweight JS representation of the UI) and a process called **reconciliation** to determine the minimal set of changes needed, applying only those updates to the real DOM. This makes UI updates more predictable, less error-prone, and faster.
+- Direct DOM manipulation is **imperative** → error‑prone and hard to scale.
+- DOM updates are **expensive** (reflows, repaints).
+- Performance issues appear as UIs grow complex.
+- **Declarative approach**: Describe **what** UI should look like; React figures out **how** to update it.
+- Predictable updates via **state → re‑render → diff → commit**.
 
 ---
 
@@ -117,7 +105,7 @@ function Button() {
 ## JSX & React Elements
 
 - **JSX** = JavaScript XML, syntax sugar for describing UI.
-- Transpiled by **Babel/TypeScript** to `React.createElement` calls.
+- Transpiled by Babel/TypeScript to `React.createElement` calls.
 
 **JSX**
 
@@ -146,7 +134,7 @@ const el = React.createElement("h1", { className: "title" }, "Hello, React!");
 
 ---
 
-## Rendering Basics (React 18)
+## Element Tree (React 18+)
 
 ```jsx
 import { createRoot } from "react-dom/client";
@@ -166,11 +154,14 @@ root.render(<App />);
 
 - A **lightweight JS representation** of the real DOM.
 - React updates **Virtual DOM** first, then determines the **minimal set of real DOM changes**.
+- **Key benefit:** Only update what changed.
 
 **Why it’s fast**
 
-- JS operations are cheaper than touching the DOM.
-- React batches DOM writes and reads to avoid layout thrashing.
+- JS operations are cheaper than touching DOM.
+- React batches updates to avoid layout thrashing.
+
+![Virtual DOM Flow Diagram](./v-dom-flow.svg)
 
 ---
 
@@ -187,6 +178,26 @@ root.render(<App />);
 - Different `type` → **replace** node.
 - Same `type` → **update** props and children.
 - **Keys** help React match children across renders.
+
+---
+
+**Example:**
+
+```html
+<!-- Old -->
+<ul>
+  <li>Apple</li>
+  <li>Banana</li>
+</ul>
+
+<!-- New -->
+<ul>
+  <li>Apple</li>
+  <li>Mango</li>
+</ul>
+```
+
+React updates only the changed `<li>`.
 
 ---
 
@@ -210,17 +221,42 @@ root.render(<App />);
 
 ---
 
-> Using indices as keys can cause incorrect state association and extra re-renders when items are inserted/removed/reordered.
+> Using indices as keys can cause incorrect state association and extra re‑renders when items are inserted/removed/reordered.
 
 ---
 
-## Render vs Commit Phases
+## Fiber Architecture
 
-- **Render phase**: Build the new element/fiber tree. Pure & can be paused.
-- **Commit phase**: Apply changes to the **real DOM**; layout/paint happens here.
-- React **batches** state updates to minimize commits.
+- Fiber = React’s internal architecture (React 16+).
+- Breaks rendering into **units of work (Fibers)**.
+- Benefits:
+  - Interruptible & async rendering
+  - Prioritization of updates
+  - Pausing & resuming work
 
-**Automatic batching (React 18)**
+---
+
+![React Fiber Example](./react-fiber.png)
+
+---
+
+![React Fiber Tree](./fiber.svg)
+
+---
+
+## Render vs Commit (Two‑Phase Cycle)
+
+1. **Render / Reconciliation Phase**
+   - Build work‑in‑progress Fiber tree
+   - Diffing happens here
+   - Async & interruptible (Can be paused)
+2. **Commit Phase**
+   - Apply changes to real DOM synchronously
+   - Run lifecycle methods & effects (`useEffect`, `componentDidMount`)
+
+---
+
+**Automatic batching (React 18+)**
 
 ```jsx
 setCount((c) => c + 1);
@@ -243,15 +279,14 @@ setText("hello");
 **Hooks**
 
 - `useState` — local state
-- `useEffect` — side effects (fetch, subscriptions, timers)
-- Cleanup in effects runs on unmount or before re-running effect
+- `useEffect` — side effects (fetch, timers, cleanup)
 
 ```jsx
 function Clock() {
   const [now, setNow] = React.useState(() => new Date());
   React.useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(id); // cleanup on unmount
+    return () => clearInterval(id);
   }, []);
   return <time>{now.toLocaleTimeString()}</time>;
 }
@@ -264,22 +299,22 @@ function Clock() {
 **Great fit**
 
 - Interactive UIs, complex state flows, dashboards, SPAs/MPAs.
-- Teams that value component reuse, strong ecosystem, TypeScript support.
+- Teams valuing component reuse, strong ecosystem, TS support.
 
 **Maybe not**
 
-- Mostly static sites with minimal interactivity (consider static site generators).
+- Mostly static sites with minimal interactivity.
 - Extremely simple pages where vanilla HTML/CSS/JS suffices.
 
 ---
 
-## Ecosystem Overview (Day 01 Teaser)
+## Ecosystem Overview
 
-- **Rendering targets**: `react-dom` (web), React Native (mobile)
-- **State**: Context, Redux, Zustand, Jotai (covered later)
+- **Rendering targets**: `react-dom`, React Native
+- **State**: Context, Redux, Zustand, Jotai
 - **Styling**: CSS Modules, Tailwind CSS, styled-components
-- **Tooling**: Babel, Webpack, Vite, SWC (Day 08 deep dive)
-- **Framework**: Next.js App Router (Days 09–11)
+- **Tooling**: Babel, Webpack, Vite, SWC
+- **Frameworks**: Next.js App Router
 - **DevTools**: React DevTools, ESLint, Prettier
 
 ---
@@ -299,8 +334,6 @@ function Counter() {
 }
 ```
 
-**Focus**: JSX, state updates, rerender mental model.
-
 ---
 
 ## Hands‑on #2 — List & Keys
@@ -317,102 +350,15 @@ function PlayersList({ players }) {
 }
 ```
 
-**Variation**: Insert a new player at the top; observe why stable keys matter.
-
 ---
 
-## Demo: JSX → createElement → Element Object
+## Common Pitfalls
 
-```jsx
-const jsx = <h1 className="title">Hello</h1>;
-```
-
-```js
-// Conceptual output after transpilation
-const el = React.createElement("h1", { className: "title" }, "Hello");
-// Element is a plain object
-// { type: 'h1', props: { className: 'title', children: 'Hello' } }
-```
-
-**Takeaway**: React works with **plain objects** first, not DOM nodes.
-
----
-
-## Common Pitfalls (Day 01)
-
-- **Directly mutating state** instead of creating new values  
-  _Bad:_
-  ```js
-  // ❌ Direct mutation
-  state.count++;
-  ```
-  _Good:_
-  ```js
-  // ✅ Use setter
-  setCount((c) => c + 1);
-  ```
-
----
-
-- Using **array index as `key`** (can cause bugs when items are reordered/removed)  
-  _Bad:_
-  ```jsx
-  {
-    items.map((item, i) => <Row key={i} value={item} />);
-  }
-  ```
-  _Good:_
-  ```jsx
-  {
-    items.map((item) => <Row key={item.id} value={item} />);
-  }
-  ```
-
----
-
-- Placing **side effects in the render body** (should use `useEffect` for effects)  
-  _Bad:_
-  ```jsx
-  // ❌ Side effect in render
-  fetch("/api/data").then(...);
-  ```
-  _Good:_
-  ```jsx
-  React.useEffect(() => {
-    fetch("/api/data").then(...);
-  }, []);
-  ```
-
----
-
-- **Assuming state updates are synchronous** (they’re batched and may be async)  
-  _Bad:_
-  ```js
-  setCount(count + 1);
-  console.log(count); // Might not be updated yet!
-  ```
-  _Good:_
-  ```js
-  setCount((c) => c + 1);
-  // Use useEffect to react to changes if needed
-  ```
-
----
-
-- Forgetting to **clean up effects** (e.g., timers, subscriptions) in `useEffect`  
-  _Bad:_
-  ```jsx
-  React.useEffect(() => {
-    const id = setInterval(...);
-  }, []);
-  ```
-  _Good:_
-  ```jsx
-  React.useEffect(() => {
-    const id = setInterval(...);
-    return () => clearInterval(id);
-  }, []);
-  ```
+- **Directly mutating state** instead of using setter
+- Using **array index as key**
+- Placing **side effects in render body** (should be in `useEffect`)
+- Assuming **state updates are synchronous**
+- Forgetting to **clean up effects**
 
 ---
 
@@ -422,8 +368,6 @@ const el = React.createElement("h1", { className: "title" }, "Hello");
 2. What’s the purpose of the Virtual DOM?
 3. When should you avoid using array index as a key?
 4. Name the two high-level phases of an update.
-
-_(Answers: `React.createElement` calls; stage DOM updates in JS for efficient diff/commit; when list items can reorder/insert/remove; render & commit)_
 
 ---
 
@@ -438,7 +382,7 @@ _(Answers: `React.createElement` calls; stage DOM updates in JS for efficient di
 
 ---
 
-- React 18 **automatic batching** even across async boundaries.
+**Automatic batching** even across async boundaries.
 
 ```jsx
 function Example() {
@@ -449,7 +393,6 @@ function Example() {
     fetch("/api/data").then(() => {
       setCount((c) => c + 1);
       setText("Loaded!");
-      // Both state updates are batched—only one re-render
     });
   }
 
@@ -465,7 +408,7 @@ function Example() {
 
 ---
 
-- **Transitions** (e.g., `startTransition`) mark non-urgent updates to keep UI responsive.
+**Transitions** mark non‑urgent updates.
 
 ```jsx
 import { startTransition } from "react";
@@ -473,9 +416,9 @@ import { startTransition } from "react";
 function Search({ query, setQuery }) {
   function onInput(e) {
     const q = e.target.value;
-    setQuery(q); // urgent (keeps input responsive)
+    setQuery(q); // urgent
     startTransition(() => {
-      // non-urgent (e.g., filter big list)
+      // non-urgent
       // setFilteredData(expensiveFilter(q));
     });
   }
@@ -493,7 +436,7 @@ function Search({ query, setQuery }) {
 
 ---
 
-## Next Session (Day 02)
+## Next Session
 
-- **JavaScript advanced refresher**: ES6+, arrays, async/await, modules, closures.
+- **JavaScript advanced refresher**: ES6+, arrays, async/await, closures.
 - Prepare: Bring an example of imperative DOM code you’ve written recently.
