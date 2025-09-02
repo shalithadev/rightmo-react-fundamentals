@@ -3,7 +3,7 @@ import "./styles.css";
 import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
 import Stats from "./components/Stats";
-import { useTodos } from "./hooks/useTodos2";
+import { useTodos } from "./hooks/useTodos";
 import Header from "./components/Header";
 
 export default function App() {

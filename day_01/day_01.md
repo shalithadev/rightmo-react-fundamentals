@@ -102,6 +102,10 @@ function Button() {
 
 ---
 
+![HTML DOM](./dom-tree.webp)
+
+---
+
 ## JSX & React Elements
 
 - **JSX** = JavaScript XML, syntax sugar for describing UI.
@@ -159,9 +163,19 @@ root.render(<App />);
 **Why it’s fast**
 
 - JS operations are cheaper than touching DOM.
-- React batches updates to avoid layout thrashing.
+- React batches updates to avoid layout [thrashing](https://webperf.tips/tip/layout-thrashing/).
 
 ![Virtual DOM Flow Diagram](./v-dom-flow.svg)
+
+---
+
+**Virtual DOM**
+
+![VDOM](./vdom.webp)
+
+---
+
+![VDOM Update](./vdom-update.webp)
 
 ---
 
