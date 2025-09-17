@@ -12,6 +12,10 @@ export default function TodoList({ items, onToggle, onRemove }) {
     }
   }, [items, filter]);
 
+  const fruits = ["banana", "apple", "orange"];
+
+  const todoStyles = { heading: { border: 1, fontSize: 24 } };
+
   return (
     <div className="card">
       <div className="row" style={{ justifyContent: "space-between" }}>
@@ -20,6 +24,11 @@ export default function TodoList({ items, onToggle, onRemove }) {
           <button className="ghost" onClick={() => setFilter("all")}>All</button>
           <button className="ghost" onClick={() => setFilter("active")}>Active</button>
           <button className="ghost" onClick={() => setFilter("done")}>Done</button>
+          {fruits.map((fruit, index) => (<div key={fruit + index} >{fruit}</div>))}
+
+          <h2 style={todoStyles.heading}>Heading 01</h2>
+          <h2 style={todoStyles.heading}>Heading 02</h2>
+          <h2 style={todoStyles.heading}>Heading 03</h2>
         </div>
       </div>
       <hr />
