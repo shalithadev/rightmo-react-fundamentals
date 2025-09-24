@@ -10,10 +10,16 @@ export const metadata: Metadata = {
   description: "The page you are looking for does not exist.",
 };
 
-export default function GlobalNotFound() {
+export default function GlobalNotFound({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  console.log("Children:", children);
+
   return (
     <html lang="en" className={inter.className}>
-      <body>
+      <body className="flex flex-col text-center min-h-screen my-16">
         <h1>404 - Page Not Found</h1>
         <p>This page does not exist.</p>
       </body>
