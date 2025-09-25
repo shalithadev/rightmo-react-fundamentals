@@ -1,3 +1,5 @@
+import { connectMongoDB } from "@/lib/mongodb";
+
 const POSTS = [
   { id: 1, title: "Post 01" },
   { id: 2, title: "post 02" },
@@ -8,5 +10,7 @@ const POSTS = [
 ];
 
 export async function GET() {
+  await connectMongoDB()
+
   return Response.json(POSTS);
 }
