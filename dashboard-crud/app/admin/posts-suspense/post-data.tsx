@@ -1,18 +1,9 @@
 import { getAllPosts } from "@/actions/posts";
 import { capitalizeFirstLetter } from "@/lib/utils";
 
-export default async function PostsPage() {
+// Async Server Component
+export default async function PostData() {
   const { data } = await getAllPosts();
-
-  // throw new Error("Failed to fetch");
-
-  if (!data) {
-    return (
-      <div>
-        <h1>No Posts Available!</h1>
-      </div>
-    );
-  }
 
   return (
     <div className="grid grid-cols-3 gap-3">

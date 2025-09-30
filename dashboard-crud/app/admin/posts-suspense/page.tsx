@@ -1,7 +1,16 @@
-import React from "react";
+import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import PostData from "./post-data";
 
-export default function LoadingPosts() {
+export default async function PostsPage() {
+  return (
+    <Suspense fallback={<FallbackPosts />}>
+      <PostData />
+    </Suspense>
+  );
+}
+
+function FallbackPosts() {
   return (
     <div className="grid grid-cols-3 gap-3">
       {Array.from({ length: 6 }).map((_, index) => (

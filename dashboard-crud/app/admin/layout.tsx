@@ -25,7 +25,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="admin-wrapper min-h-screen bg-green-950 w-full flex flex-row">
+    <div className="admin-wrapper min-h-screen w-full flex flex-row">
       <SideBar />
       <div className="flex-4">
         <AdminHeader />
