@@ -11,3 +11,8 @@
 9. after function
 10. `pnpm approve-builds` Command
 11. `next typegen` Command
+
+07/09/2025
+
+1. useState hook
+2. useEffect hook

@@ -1,7 +1,5 @@
 {
-    "cSpell.words": [
-        "interruptible",
-        "marp",
-        "VDOM"
-    ]
+  "cSpell.words": ["interruptible", "marp", "VDOM"],
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
