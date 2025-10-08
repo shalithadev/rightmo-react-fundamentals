@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 export default function EffectOnce() {
   const [input, setInput] = useState("");
+  // useRef to track whether the component has been mounted.
   const didMountRef = useRef(false);
 
   useEffect(() => {
