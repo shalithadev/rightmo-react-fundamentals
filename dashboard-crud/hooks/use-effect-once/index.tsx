@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useRef } from "react";
 
 export default function EffectOnce() {
@@ -17,6 +19,7 @@ export default function EffectOnce() {
   return (
     <div>
       <input
+        className="p-2 rounded border border-gray-300 text-black"
         type="text"
         value={input}
         onChange={(e) => setInput(e.target.value)}
